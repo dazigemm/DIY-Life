@@ -1,57 +1,50 @@
-The content below is an example project proposal / requirements document. Replace the text below the lines marked "__TODO__" with details specific to your project. Remove the "TODO" lines.
-
-(___TODO__: your project name_)
-
-# Shoppy Shoperson 
+# DIY Life 
 
 ## Overview
 
-(___TODO__: a brief one or two paragraph, high-level description of your project_)
-
-Remembering what to buy at the grocery store is waaaaay too difficult. Also, shopping for groceries when you're hungry leads to regrettable purchases. Sooo... that's where Shoppy Shoperson comes in!
-
-Shoppy Shoperson is a web app that will allow users to keep track of multiple grocery lists. Users can register and login. Once they're logged in, they can create or view their grocery list. For every list that they have, they can add items to the list or cross off items.
-
+DIY Life is life, if life was a game. 
+Users can collaborate to create their own "choose your own adventure" stories. Given a prompt, users will put down two choices, without knowing what events occured before. These choices will then be passed on to another user to continue the story.
+After a certain number of rounds, the story will be complete, and available for all users to play from the beginning.
 
 ## Data Model
 
-(___TODO__: a description of your application's data and their relationships to each other_) 
-
-The application will store Users, Lists and Items
-
-* users can have multiple lists (via references)
-* each list can have multiple items (by embedding)
-
-(___TODO__: sample documents_)
+The application will store Users and Stories
+* Stories will be a collection of 10 events (maybe more or less?)
+* Each event (excluding the ending) will be linked to two other events
+** These events will be the two choices users choose from
 
 An Example User:
 
 ```javascript
 {
-  username: "shannonshopper",
+  username: "doppelganger",
   hash: // a password hash,
-  lists: // an array of references to List documents
 }
 ```
 
-An Example List with Embedded Items:
+An Example Story:
 
 ```javascript
 {
-  user: // a reference to a User object
-  name: "Breakfast foods",
-  items: [
-    { name: "pancakes", quantity: "9876", checked: false},
-    { name: "ramen", quantity: "2", checked: true},
-  ],
-  createdAt: // timestamp
+  collaborators: // array of users who have added to this already
+  title: "Life",
+  events: [Event],
+  isFinished: boolean
+}
+```
+An Example Event:
+
+```javascript
+{
+  before: // event that occured before
+  after: // event that occurs after, null if is end
+  storyLine: String // prompt to display,
 }
 ```
 
 
 ## [Link to Commented First Draft Schema](db.js) 
 
-(___TODO__: create a first draft of your Schemas in db.js and link to it_)
 
 ## Wireframes
 
@@ -77,14 +70,11 @@ Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia
 
 ## User Stories or Use Cases
 
-(___TODO__: write out how your application will be used through [user stories](http://en.wikipedia.org/wiki/User_story#Format) and / or [use cases](https://www.mongodb.com/download-center?jmp=docs&_ga=1.47552679.1838903181.1489282706#previous)_)
-
 1. as non-registered user, I can register a new account with the site
 2. as a user, I can log in to the site
-3. as a user, I can create a new grocery list
-4. as a user, I can view all of the grocery lists I've created in a single list
-5. as a user, I can add items to an existing grocery list
-6. as a user, I can cross off items in an existing grocery list
+3. as a user, I can start a new story
+4. as a user, I can add choices to an existing story
+5. as a user, I can play different paths in finished stories
 
 ## Research Topics
 
