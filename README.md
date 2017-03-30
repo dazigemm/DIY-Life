@@ -2,7 +2,7 @@
 
 ## Overview
 
-DIY Life is life, if life was a game. 
+DIY Life is life, if life were a game. 
 Users can collaborate to create their own "choose your own adventure" stories. Given a prompt, users will put down two choices, without knowing what events occured before. These choices will then be passed on to another user to continue the story.
 After a certain number of rounds, the story will be complete, and available for all users to play from the beginning.
 
@@ -11,7 +11,7 @@ After a certain number of rounds, the story will be complete, and available for 
 The application will store Users and Stories
 * Stories will be a collection of 10 events (maybe more or less?)
 * Each event (excluding the ending) will be linked to two other events
-** These events will be the two choices users choose from
+	* These events will be the two choices users choose from
 
 An Example User:
 
@@ -64,9 +64,8 @@ An Example Event:
 
 ## Site map
 
-(___TODO__: draw out a site map that shows how pages are related to each other_)
+![site map](documentation/site-map.png)
 
-Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia/commons/2/20/Sitemap_google.jpg), but you can create one without the screenshots, drop shadows, etc. ... just names of pages and where they flow to.
 
 ## User Stories or Use Cases
 
@@ -78,25 +77,15 @@ Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia
 
 ## Research Topics
 
-(___TODO__: the research topics that you're planning on working on along with their point values... and the total points of research topics listed_)
-
 * (5 points) Integrate user authentication
-    * I'm going to be using passport for user authentication
-    * And account has been made for testing; I'll email you the password
-    * see <code>cs.nyu.edu/~jversoza/ait-final/register</code> for register page
-    * see <code>cs.nyu.edu/~jversoza/ait-final/login</code> for login page
-* (4 points) Perform client side form validation using a JavaScript library
-    * see <code>cs.nyu.edu/~jversoza/ait-final/my-form</code>
-    * if you put in a number that's greater than 5, an error message will appear in the dom
-* (5 points) vue.js
-    * used vue.js as the frontend framework; it's a challenging library to learn, so I've assigned it 5 points
-
-10 points total out of 8 required points (___TODO__: addtional points will __not__ count for extra credit_)
-
+	* sign up and registration
+* (5 points) Automate functional testing for all routes
+	* Plan to use Selenium
+	* Test through all routes in each story
+10 points total out of 8 required points
 
 ## [Link to Initial Main Project File](app.js) 
 
-(___TODO__: create a skeleton Express application with a package.json, app.js, views folder, etc. ... and link to your initial app.js_)
 
 ## Annotations / References Used
 
