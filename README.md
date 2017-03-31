@@ -9,9 +9,11 @@ After a certain number of rounds, the story will be complete, and available for 
 ## Data Model
 
 The application will store Users and Stories
-* Stories will be a collection of 10 events (maybe more or less?)
+* Stories will be a collection of 10 events (or less?)
+	* sort of like a tree?
 * Each event (excluding the ending) will be linked to two other events
 	* These events will be the two choices users choose from
+* Schemas still need a lot of work
 
 An Example User:
 
