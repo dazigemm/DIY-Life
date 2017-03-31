@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 
 // Use __dirname to construct absolute paths for:
-/ 1. express-static
+// 1. express-static
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -28,7 +28,9 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 
 // routes go here
-
+app.get('/', function (req, res) {
+	res.send('hello world!');
+});
 
 // LISTEN ON PORT 3000
 app.listen(3000);
