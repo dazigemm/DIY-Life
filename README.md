@@ -37,7 +37,7 @@ An Example Event:
 ```javascript
 {
   before: // event that occured before
-  after: // event that occurs after, null if is end
+  after: // 2 possible events that occurs after, null if is end
   storyLine: String // prompt to display,
 }
 ```
@@ -48,19 +48,26 @@ An Example Event:
 
 ## Wireframes
 
-(___TODO__: wireframes for all of the pages on your site; they can be as simple as photos of drawings or you can use a tool like Balsamiq, Omnigraffle, etc._)
+/ - page for logging in or registering
 
-/list/create - page for creating a new shopping list
+![home](documentation/home.png)
 
-![list create](documentation/list-create.png)
+/list - page for showing all stories
 
-/list - page for showing all shopping lists
+![list](documentation/list-of-stories.png)
 
-![list](documentation/list.png)
+/start-new-story - page for creating new story
 
-/list/slug - page for showing specific shopping list
+![start new story](documentation/start-new-story.png)
 
-![list](documentation/list-slug.png)
+/continue/slug - page for creating continuing story
+
+![continue](documentation/continue.png)
+
+/play/slug - page for playing story
+
+![play](documentation/play.png)
+
 
 ## Site map
 
@@ -78,7 +85,7 @@ An Example Event:
 ## Research Topics
 
 * (5 points) Integrate user authentication
-	* sign up and registration
+	* sign up and register
 * (5 points) Automate functional testing for all routes
 	* Plan to use Selenium
 	* Test through all routes in each story
