@@ -89,7 +89,7 @@ An Example Event:
 * (5 points) Integrate user authentication
 	* sign up and register
 * (5 points) Automate functional testing for all routes
-	* Plan to use Selenium
+	* Plan to use PhantomJS
 	* Test through all routes in each story
 
 10 points total out of 8 required points
@@ -98,5 +98,7 @@ An Example Event:
 
 
 ## Annotations / References Used
-1. [selenium](http://www.seleniumhq.org/docs/)
+1. [phantomJS](http://phantomjs.org/page-automation.html)
+	* Page Automation
+	* Add link to source code based on this (none yet)
 
