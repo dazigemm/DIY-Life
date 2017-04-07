@@ -17,7 +17,7 @@ app.set('view engine', 'hbs');
 // link db
 require('./db');
 
-// express-session
+/*/ express-session
 const session = require('express-session');
 const sessionOptions = {
 	secret: 'secret cookie thang',
@@ -26,7 +26,7 @@ const sessionOptions = {
 };
 
 app.use(session(sessionOptions));
-
+*/
 // routes go here
 app.get('/', function (req, res) {
 	res.send('hello world!');

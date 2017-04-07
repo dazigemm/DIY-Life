@@ -20,8 +20,9 @@
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "express-session": "^1.15.2",
+    "fs": "0.0.1-security",
     "hbs": "^4.0.1",
-    "mongoose": "^4.9.2",
+    "mongoose": "^4.9.3",
     "mongoose-url-slugs": "^0.2.1",
     "path": "^0.12.7"
   },
