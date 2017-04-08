@@ -16,6 +16,7 @@ app.set('view engine', 'hbs');
 
 // link db
 require('./db');
+const mongoose = require('mongoose');
 const Story = mongoose.model('Story');
 
 // express-session
@@ -58,7 +59,7 @@ app.post('/create', function (req, res) {
 				title: title,
 				events: point
 			});
-			s.save((err) {
+			s.save((err) => {
 				if (err) {
 					console.log(err);
 					res.send('uh oh something went wrong');
