@@ -33,7 +33,13 @@ app.use(session(sessionOptions));
 // routes go here
 app.get('/', function (req, res) {
 	//res.send('hello world!');
-	res.render('index');
+	Story.find({}, (err, stories) => {
+		if (err) {
+			console.log(err);
+			res.send('uh oh something went wrong');
+		}
+		res.render('index', {stories: stories});
+	});
 });
 
 app.get('/create', function (req, res) {
