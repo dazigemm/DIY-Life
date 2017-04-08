@@ -16,20 +16,57 @@ app.set('view engine', 'hbs');
 
 // link db
 require('./db');
+const Story = mongoose.model('Story');
 
-/*/ express-session
+// express-session
 const session = require('express-session');
 const sessionOptions = {
-	secret: 'secret cookie thang',
+	secret: 'super secret',
 	resave: true,
 	saveUnitialized: true
 };
 
 app.use(session(sessionOptions));
-*/
+//*/
+
 // routes go here
 app.get('/', function (req, res) {
-	res.send('hello world!');
+	//res.send('hello world!');
+	res.render('index');
+});
+
+app.get('/create', function (req, res) {
+	res.render('create');
+});
+
+app.post('/create', function (req, res) {
+	const title = req.body.title;
+	const point = req.body.point;
+	if (title.length < 1 || point.length < 1) {
+		res.render('create', {error:'please enter something into the text fields')};
+	}
+	else {
+		Story.findOne({title: title}, (err, result) => {
+			if (err) {
+				console.log(err);
+				res.send('uh oh something went wrong');
+			}
+			if (result) {
+				res.render('create', {error: 'story with this title already exists'});
+			}
+			const s = new Story({
+				title: title,
+				events: point
+			});
+			s.save((err) {
+				if (err) {
+					console.log(err);
+					res.send('uh oh something went wrong');
+				}
+				res.redirect('/');
+			});
+		});
+	}	
 });
 
 // LISTEN ON PORT 3000
