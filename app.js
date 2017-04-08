@@ -43,7 +43,7 @@ app.post('/create', function (req, res) {
 	const title = req.body.title;
 	const point = req.body.point;
 	if (title.length < 1 || point.length < 1) {
-		res.render('create', {error:'please enter something into the text fields')};
+		res.render('create', {error:'please enter something into the text fields'});
 	}
 	else {
 		Story.findOne({title: title}, (err, result) => {
