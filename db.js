@@ -14,17 +14,21 @@ const Event = new mongoose.Schema({
 });
 
 const Story = new mongoose.Schema({
+	title: {type: String, unique: true},
+	points: String
+});
+/*
 	writers: [User],
 	title: String,
 	events: [Event],//maybe save beginning of story?
 	isFinished: String
 });
-
+*/
 Story.plugin(URLSlugs('title'));
 
 mongoose.model('User', User);
 mongoose.model('Event', Event);
-mongoose.model('Story', Event);
+mongoose.model('Story', Story);
 
 // is the environment variable, NODE_ENV, set to PRODUCTION?
 if (process.env.NODE_ENV === 'PRODUCTION') {

@@ -38,6 +38,7 @@ app.get('/', function (req, res) {
 			console.log(err);
 			res.send('uh oh something went wrong');
 		}
+		console.log(stories);
 		res.render('index', {stories: stories});
 	});
 });
@@ -47,13 +48,15 @@ app.get('/create', function (req, res) {
 });
 
 app.post('/create', function (req, res) {
-	const title = req.body.title;
-	const point = req.body.point;
-	if (title.length < 1 || point.length < 1) {
+	const t = req.body.title;
+	const p = req.body.point;
+	console.log("t: " + t);
+	console.log("p: " + p);
+	if (t.length < 1 || p.length < 1) {
 		res.render('create', {error:'please enter something into the text fields'});
 	}
 	else {
-		Story.findOne({title: title}, (err, result) => {
+		Story.findOne({title: t}, (err, result) => {
 			if (err) {
 				console.log(err);
 				res.send('uh oh something went wrong');
@@ -62,9 +65,10 @@ app.post('/create', function (req, res) {
 				res.render('create', {error: 'story with this title already exists'});
 			}
 			const s = new Story({
-				title: title,
-				events: point
+				title: t,
+				points: p
 			});
+			console.log("story created: " + s.title);
 			s.save((err) => {
 				if (err) {
 					console.log(err);
