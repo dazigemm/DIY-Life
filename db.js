@@ -7,27 +7,27 @@ const User = new mongoose.Schema({
 	password: String
 });
 
-const Event = new mongoose.Schema({
-	before: Object,//Event,
-	after: [Object],
-	storyLine: String
+const Choice = new mongoose.Schema({
+	action: String,
+	effect: String
+});
+
+const Chapter = new mongoose.Schema({
+			
 });
 
 const Story = new mongoose.Schema({
 	title: {type: String, unique: true},
-	points: String
+	chapts: [Chapter],
+	authors: [String],
+	complete: boolean
 });
-/*
-	writers: [User],
-	title: String,
-	events: [Event],//maybe save beginning of story?
-	isFinished: String
-});
-*/
+
 Story.plugin(URLSlugs('title'));
 
 mongoose.model('User', User);
-mongoose.model('Event', Event);
+mongoose.model('Choice', Choice);
+mongoose.model('Chapter', Chapter);
 mongoose.model('Story', Story);
 
 // is the environment variable, NODE_ENV, set to PRODUCTION?

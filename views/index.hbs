@@ -1,6 +1,9 @@
 <h1> Stories So Far </h1>
+<h2> Incomplete Stories </h2>
+The following stories are incomplete. Help finish them.
+<br>
 {{#each stories as |story|}}
-	<h2>{{story.title}}</h2>
+	<a href={{story.slug}}>{{story.title}}</a>
 {{/each}}
 <br>
 <a href="/create">Click here to create a new story</a>

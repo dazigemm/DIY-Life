@@ -39,9 +39,24 @@ app.get('/', function (req, res) {
 			console.log(err);
 			res.send('uh oh something went wrong');
 		}
-		console.log(stories);
+		//console.log(stories);
 		res.render('index', {stories: stories});
 	});
+});
+
+app.get('/cont/:slug', function(req, res) {
+	Story.findOne({slug: req.params.slug}, (err, sFound) => {
+		if (err) {
+			console.log(err);
+		}
+		res.render('cont', {story: sFound});
+	});
+});
+
+app.post('/cont/:slug', function (req, res) {
+	const s = req.params.slug;
+
+	res.redirect('/cont'+s);
 });
 
 app.get('/create', function (req, res) {
@@ -51,8 +66,8 @@ app.get('/create', function (req, res) {
 app.post('/create', function (req, res) {
 	const t = req.body.title;
 	const p = req.body.point;
-	console.log("t: " + t);
-	console.log("p: " + p);
+	//console.log("t: " + t);
+	//console.log("p: " + p);
 	if (t.length < 1 || p.length < 1) {
 		res.render('create', {error:'please enter something into the text fields'});
 	}
