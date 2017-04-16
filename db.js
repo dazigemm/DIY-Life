@@ -20,8 +20,7 @@ const Chapter = new mongoose.Schema({
 const Story = new mongoose.Schema({
 	title: {type: String, unique: true},
 	chapts: [Chapter],
-	authors: [String]/*,
-	complete: boolean*/
+	authors: [String]
 });
 
 Story.plugin(URLSlugs('title'));

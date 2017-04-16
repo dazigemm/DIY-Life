@@ -17,6 +17,8 @@ app.set('view engine', 'hbs');
 // link db
 require('./db');
 const mongoose = require('mongoose');
+const Choice = mongoose.model('Choice');
+const Chapter = mongoose.model('Chapter');
 const Story = mongoose.model('Story');
 const User = mongoose.model('User');
 
@@ -32,7 +34,7 @@ app.use(session(sessionOptions));
 //*/
 
 // routes go here
-app.get('/', function (req, res) {
+app.get('/', function (req, res) {// list all stories
 	//res.send('hello world!');
 	Story.find({}, (err, stories) => {
 		if (err) {
@@ -42,22 +44,6 @@ app.get('/', function (req, res) {
 		//console.log(stories);
 		res.render('index', {stories: stories});
 	});
-});
-
-app.get('/:slug', function(req, res) {
-	/*Story.findOne({slug: req.params.slug}, (err, sFound) => {
-		if (err) {
-			console.log(err);
-		}
-		res.render('cont', {story: sFound});
-	});*/
-	res.render('cont');//, {story: sFound});
-});
-
-app.post('/:slug', function (req, res) {
-	const s = req.params.slug;
-
-	res.redirect(s);
 });
 
 app.get('/create', function (req, res) {
@@ -95,6 +81,27 @@ app.post('/create', function (req, res) {
 			});
 		});
 	}	
+});
+
+app.get('/:slug', function(req, res) {
+	Story.findOne({slug: req.params.slug}, (err, sFound) => {
+		if (err) {
+			console.log(err);
+		}
+		if (sFound.chapts.length < 9) {// incomplete story
+			res.render('cont', {story: sFound});
+		}
+		else {// complete story
+			res.render('play', {story: sFound});
+		}
+	});
+	//res.render('cont');//, {story: sFound});
+});
+
+app.post('/:slug', function (req, res) {
+	const s = req.params.slug;
+	
+	res.redirect(s);
 });
 
 /************** USER AUTHENTICATION, NOT YET DEPLOYED *****************
