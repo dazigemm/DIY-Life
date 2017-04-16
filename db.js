@@ -13,14 +13,15 @@ const Choice = new mongoose.Schema({
 });
 
 const Chapter = new mongoose.Schema({
-			
+	choiceA: Choice,
+	choiceB: Choice	
 });
 
 const Story = new mongoose.Schema({
 	title: {type: String, unique: true},
 	chapts: [Chapter],
-	authors: [String],
-	complete: boolean
+	authors: [String]/*,
+	complete: boolean*/
 });
 
 Story.plugin(URLSlugs('title'));

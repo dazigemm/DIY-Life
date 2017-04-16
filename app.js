@@ -44,19 +44,20 @@ app.get('/', function (req, res) {
 	});
 });
 
-app.get('/cont/:slug', function(req, res) {
-	Story.findOne({slug: req.params.slug}, (err, sFound) => {
+app.get('/:slug', function(req, res) {
+	/*Story.findOne({slug: req.params.slug}, (err, sFound) => {
 		if (err) {
 			console.log(err);
 		}
 		res.render('cont', {story: sFound});
-	});
+	});*/
+	res.render('cont');//, {story: sFound});
 });
 
-app.post('/cont/:slug', function (req, res) {
+app.post('/:slug', function (req, res) {
 	const s = req.params.slug;
 
-	res.redirect('/cont'+s);
+	res.redirect(s);
 });
 
 app.get('/create', function (req, res) {
