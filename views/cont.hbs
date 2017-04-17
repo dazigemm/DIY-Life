@@ -1,11 +1,13 @@
 <h1>{{story.title}}</h1>
+
 {{#each chapts as |chapt|}}
-	Here is what has happened so far: <!find what was last written>
+	Here is what has happened so far: 
 	<br>
-	{{chapt.current.effect}}
+	{{chapt.chap.current.action}} then {{chapt.chap.current.effect}}
 	<br>
 	How do you think it should continue:
 	<form method="POST" action="">
+		<input type="text" name='index' value={{chapt.index}} class="invisible">
 		Action 1: <input type="text" name="aOne">
 		Effect: <input type="text" name="eOne">
 		<br>
@@ -17,3 +19,4 @@
 	</form>
 	<br>
 {{/each}}
+

@@ -6,3 +6,7 @@ html, body {
 h1 {
 	color: blue;
 }
+
+.invisible {
+	display: none;
+}

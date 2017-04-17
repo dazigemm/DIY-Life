@@ -118,11 +118,13 @@ app.get('/:slug', function(req, res) {
 				const num = getTail(len);
 				const last = len - num;// index of last added chapter
 				const toUpdate = [];
+				const indices = [];
 				for (let i = len -1; i > last - 1; i--) {
-					toUpdate.push(sFound.chapts[i]);
+					toUpdate.push({index: i, chap: sFound.chapts[i]});
+					indices.push(i);
 				}
 				console.log(toUpdate);		
-				res.render('cont', {story: sFound, chapts: toUpdate});
+				res.render('cont', {story: sFound, chapts: toUpdate, ind: indices});
 			}
 			else {// complete story
 				res.render('play', {story: sFound});
@@ -144,13 +146,17 @@ app.post('/:slug', function (req, res) {
 	});
 	// SEARCH FOR CHAPTER INSTEAD?
 	// HOW TO KNOW IF END? MAYBE ADD LEVEL PROPERTY TO CHAPT?
+       	//console.log("hereeeeee");
+	//console.log(req.body);
 	Story.findOne({slug: s}, (err, sFound) => {
 		if (err) {
 			console.log(err);
 		}
 		// FIX THIS, SHOULD NOT BE CHAPTER 0, LOOK FOR LATEST CHAPTER
-		sFound.chapts[0].choiceA = cA;
-		sFound.chapts[0].choiceB = cB;
+		//const t = sFound.chapts.length - 1;
+		const t = req.body.index;
+		sFound.chapts[t].choiceA = cA;
+		sFound.chapts[t].choiceB = cB;
 		const chaptA = new Chapter({
 			current: cA
 		});
