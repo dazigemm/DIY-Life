@@ -76,7 +76,7 @@ app.post('/create', function (req, res) {
 			}
 			const s = new Story({
 				title: t,
-				points: [chapt]
+				chapts: [chapt]
 			});
 			console.log("story created: " + s.title);
 			s.save((err) => {
@@ -95,12 +95,16 @@ app.get('/:slug', function(req, res) {
 		if (err) {
 			console.log(err);
 		}
-		if (sFound.chapts.length < 9) {// incomplete story
+		console.log("for: " + req.params.slug);
+		console.log("Here is the story found:\n" + sFound);
+		console.log("does it have a length? " + sFound.length);
+		//console.log(sFound.chapts.[0]);
+		//if (sFound.chapts.length < 9) {// incomplete story
 			res.render('cont', {story: sFound});
-		}
+		/*}
 		else {// complete story
 			res.render('play', {story: sFound});
-		}
+		}//*/
 	});
 	//res.render('cont');//, {story: sFound});
 });
