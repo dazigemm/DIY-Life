@@ -95,15 +95,19 @@ app.get('/:slug', function(req, res) {
 		if (err) {
 			console.log(err);
 		}
+		/* **** chrome makes favicon requests? ==> null error
 		console.log("for: " + req.params.slug);
 		console.log("Here is the story found:\n" + sFound);
 		console.log("does it have a length? " + sFound.length);
-		//console.log(sFound.chapts.[0]);
-		//if (sFound.chapts.length < 9) {// incomplete story
-			res.render('cont', {story: sFound});
-		/*}
-		else {// complete story
-			res.render('play', {story: sFound});
+		//console.log(sFound.chapts.length);
+		//*/
+		if (sFound !== null) {
+		       if (sFound.chapts.length < 9) {// incomplete story
+				res.render('cont', {story: sFound});
+			}
+			else {// complete story
+				res.render('play', {story: sFound});
+			}
 		}//*/
 	});
 	//res.render('cont');//, {story: sFound});
