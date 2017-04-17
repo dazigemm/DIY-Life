@@ -1,16 +1,19 @@
 <h1>{{story.title}}</h1>
-Here is what has happened so far: <!find what was last written>
-<br>
-{{story.chapts.[0].current.effect}}
-<br>
-How do you think it should continue:
-<form method="POST" action="">
-	Action 1: <input type="text" name="aOne">
-	Effect: <input type="text" name="eOne">
+{{#each chapts as |chapt|}}
+	Here is what has happened so far: <!find what was last written>
 	<br>
-	Action 2: <input type="text" name ="aTwo">
-	Effect: <input type="text" name="eTwo">
+	{{chapt.current.effect}}
 	<br>
-	<input type="submit">
-</form>
-<br>
+	How do you think it should continue:
+	<form method="POST" action="">
+		Action 1: <input type="text" name="aOne">
+		Effect: <input type="text" name="eOne">
+		<br>
+		Action 2: <input type="text" name ="aTwo">
+		Effect: <input type="text" name="eTwo">
+		<br>
+		<! MOVE SUBMIT BUTTON OUTSIDE?>
+		<input type="submit">
+	</form>
+	<br>
+{{/each}}

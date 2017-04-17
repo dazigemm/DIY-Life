@@ -90,6 +90,17 @@ app.post('/create', function (req, res) {
 	}	
 });
 
+// get last few incomplete chapters
+function getTail (len) {
+	let ctr = 1;
+	let x = 1;
+	while (x < len) {
+		ctr *= 2;
+		x += ctr;
+	}
+	return ctr;
+}
+
 app.get('/:slug', function(req, res) {
 	Story.findOne({slug: req.params.slug}, (err, sFound) => {
 		if (err) {
@@ -102,11 +113,16 @@ app.get('/:slug', function(req, res) {
 		//console.log(sFound.chapts.length);
 		//*/
 		if (sFound !== null) {
-		       if (sFound.chapts.length < 9) {// incomplete story
-				// COME BACK AND ACCOUNT FOR WHEN MORE THAN TWO ROUTES
-				// MAYBE GO THROUGH EVERY CHAPTER AND HAVE CHOICE FORM???
-			       // OR LIST ON MAIN PAGE?
-			       res.render('cont', {story: sFound});
+		       	const len = sFound.chapts.length;
+			if (len < 7) {// incomplete story
+				const num = getTail(len);
+				const last = len - num;// index of last added chapter
+				const toUpdate = [];
+				for (let i = len -1; i > last - 1; i--) {
+					toUpdate.push(sFound.chapts[i]);
+				}
+				console.log(toUpdate);		
+				res.render('cont', {story: sFound, chapts: toUpdate});
 			}
 			else {// complete story
 				res.render('play', {story: sFound});
@@ -126,12 +142,23 @@ app.post('/:slug', function (req, res) {
 		action: req.body.aTwo,
 		effect: req.body.eTwo
 	});
+	// SEARCH FOR CHAPTER INSTEAD?
+	// HOW TO KNOW IF END? MAYBE ADD LEVEL PROPERTY TO CHAPT?
 	Story.findOne({slug: s}, (err, sFound) => {
 		if (err) {
 			console.log(err);
 		}
+		// FIX THIS, SHOULD NOT BE CHAPTER 0, LOOK FOR LATEST CHAPTER
 		sFound.chapts[0].choiceA = cA;
 		sFound.chapts[0].choiceB = cB;
+		const chaptA = new Chapter({
+			current: cA
+		});
+		const chaptB = new Chapter({
+			current: cB
+		});
+		sFound.chapts.push(chaptA);
+		sFound.chapts.push(chaptB);
 		sFound.markModified('chapts');
 		//sFound.markModified('choiceB');
 		sFound.save(function(err, modifiedStory) {
