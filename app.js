@@ -103,6 +103,7 @@ app.get('/:slug', function(req, res) {
 		//*/
 		if (sFound !== null) {
 		       if (sFound.chapts.length < 9) {// incomplete story
+				// COME BACK AND ACCOUNT FOR WHEN MORE THAN TWO ROUTES
 				res.render('cont', {story: sFound});
 			}
 			else {// complete story
@@ -115,8 +116,28 @@ app.get('/:slug', function(req, res) {
 
 app.post('/:slug', function (req, res) {
 	const s = req.params.slug;
-	
-	res.redirect(s);
+	const cA = new Choice ({
+		action: req.body.aOne,
+		effect: req.body.eOne
+	});
+	const cB = new Choice ({
+		action: req.body.aTwo,
+		effect: req.body.eTwo
+	});
+	Story.findOne({slug: s}, (err, sFound) => {
+		if (err) {
+			console.log(err);
+		}
+		sFound.choiceA = cA;
+		sFound.choiceB = cB;
+		sFound.markModified('choiceA');
+		sFound.markModified('choiceB');
+		sFound.save(function(err, modifiedStory) {
+			console.log(err, modifiedPizza);
+		});
+		res.redirect(s);	
+	});	
+	//res.redirect(s);
 });
 
 /************** USER AUTHENTICATION, NOT YET DEPLOYED *****************
