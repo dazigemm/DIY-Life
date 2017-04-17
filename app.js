@@ -53,6 +53,13 @@ app.get('/create', function (req, res) {
 app.post('/create', function (req, res) {
 	const t = req.body.title;
 	const p = req.body.point;
+	const c = new Choice({
+		action: null,
+		effect: p
+	});
+	const chapt = new Chapter({
+		current: c
+	});	
 	//console.log("t: " + t);
 	//console.log("p: " + p);
 	if (t.length < 1 || p.length < 1) {
@@ -69,7 +76,7 @@ app.post('/create', function (req, res) {
 			}
 			const s = new Story({
 				title: t,
-				points: p
+				points: [chapt]
 			});
 			console.log("story created: " + s.title);
 			s.save((err) => {
