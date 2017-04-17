@@ -104,7 +104,9 @@ app.get('/:slug', function(req, res) {
 		if (sFound !== null) {
 		       if (sFound.chapts.length < 9) {// incomplete story
 				// COME BACK AND ACCOUNT FOR WHEN MORE THAN TWO ROUTES
-				res.render('cont', {story: sFound});
+				// MAYBE GO THROUGH EVERY CHAPTER AND HAVE CHOICE FORM???
+			       // OR LIST ON MAIN PAGE?
+			       res.render('cont', {story: sFound});
 			}
 			else {// complete story
 				res.render('play', {story: sFound});
