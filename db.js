@@ -13,6 +13,7 @@ const Choice = new mongoose.Schema({
 });
 
 const Chapter = new mongoose.Schema({
+	current: Choice,
 	choiceA: Choice,
 	choiceB: Choice	
 });
