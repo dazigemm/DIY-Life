@@ -128,12 +128,12 @@ app.post('/:slug', function (req, res) {
 		if (err) {
 			console.log(err);
 		}
-		sFound.choiceA = cA;
-		sFound.choiceB = cB;
-		sFound.markModified('choiceA');
-		sFound.markModified('choiceB');
+		sFound.chapts[0].choiceA = cA;
+		sFound.chapts[0].choiceB = cB;
+		sFound.markModified('chapts');
+		//sFound.markModified('choiceB');
 		sFound.save(function(err, modifiedStory) {
-			console.log(err, modifiedPizza);
+			console.log(err, modifiedStory);
 		});
 		res.redirect(s);	
 	});	
