@@ -1,10 +1,14 @@
-<h1> Stories So Far </h1>
-<h2> Incomplete Stories </h2>
-The following stories are incomplete. Help finish them.
+<h1> DIY LIFE </h1>
+<form method="GET">
+	<input type="radio" name="filterCategory" value="Complete"> Complete
+	<input type="radio" name="filterCategory" value="Incomplete"> Incomplete 	<input type="submit" value="Filter Stories">
+</form>
+<hr>
+<h2> {{stat}} Stories So Far </h2>
 <br>
 {{#each stories as |story|}}
 	<a href={{story.slug}}>{{story.title}}</a>
 	<br>
 {{/each}}
-<br>
+<hr>
 <a href="/create">Click here to create a new story</a>

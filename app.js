@@ -31,18 +31,28 @@ const sessionOptions = {
 };
 
 app.use(session(sessionOptions));
-//*/
 
-// routes go here
-app.get('/', function (req, res) {// list all stories
-	//res.send('hello world!');
+// routes 
+
+// List all of the stories. If asked, filter for only complete or incomplete
+app.get('/', function (req, res) {
+	const stat = req.query.filterCategory;
 	Story.find({}, (err, stories) => {
 		if (err) {
 			console.log(err);
 			res.send('uh oh something went wrong');
 		}
-		//console.log(stories);
-		res.render('index', {stories: stories});
+		if (stat === "Incomplete") {
+			stories = stories.filter(function(ele) {
+				return ele.chapts.length < 7;
+			});
+		}
+		else if (stat === "Complete") {
+			stories = stories.filter(function(ele) {
+				return ele.chapts.length === 7;
+			});
+		}
+		res.render('index', {stories: stories, stat: stat});
 	});
 });
 
@@ -174,126 +184,6 @@ app.post('/:slug', function (req, res) {
 	});	
 	//res.redirect(s);
 });
-
-/************** USER AUTHENTICATION, NOT YET DEPLOYED *****************
-
-app.get('/', function(req, res) {	
-	res.render('index', {name: req.session.username});
-});
-
-app.get('/register', function(req, res) {
-	res.render('register');
-});
-
-app.post('/register', function(req, res) {
-	const pw = req.body.password;
-	const name = req.body.username;
-
-	if (pw.length < 8) {
-		res.render('register', {error: 'password too short'});
-	}
-	else {
-		User.findOne({username: name}, (err, result) => {
-			if (err) {
-				console.log(err);
-				res.send('an error has occured, please check the server output');
-			}
-			if (result) {//user exists
-				res.render('register', {error: 'user already exists'});
-			}
-			else {
-				//hash, salt and store
-				bcrypt.hash(pw, 10, function(err, hash) {
-					if (err) {
-						console.log(err);
-						res.send('an error has occured, please check the server output');
-					}
-					const u = new User({
-						username: name,
-						password: hash
-					});
-					u.save((err) => {
-						if (err) {
-							console.log(err);
-							res.send('an error has occured, please check the server output');
-						}
-						// start a new session
-						req.session.regenerate((err) => {
-							if (!err) {
-								req.session.username = name;
-								res.redirect('/');
-
-							}
-							else {
-								console.log('error');
-								res.send('an error has occured, please see the server logs for more information');
-							}
-						});
-					});
-				});
-			}
-		});
-	}
-
-});
-
-app.get('/login', function(req, res) {
-	res.render('login');
-});
-
-app.post('/login', function(req, res) {
-	const name = req.body.username;
-	User.findOne({username: name}, (err, user) => {
-		if (err) {
-			console.log(err);
-			res.send('an error has occured, plase check the server output');
-		}
-		else if (user) {
-			bcrypt.compare(req.body.password, user.password, (err, passwordMatch) => {
-				if (err) {
-					console.log(err);
-					res.send('an error has occured, please check the server output');
-				}
-				if (passwordMatch) {
-					if (!err) {
-						req.session.username = user.username;
-						res.redirect('/');
-					}
-					else {
-						console.log('error');
-						res.send('an error has occured, plase check the server output');
-					}
-				}
-			});
-		}
-		else {
-			res.render('login', {error: 'user not found'});
-		}		
-	});	
-});
-
-app.get('/restricted', function (req, res) {
-	if (req.session.username) {
-		res.render('restricted', {name: req.session.username});
-	}
-	else {
-		res.redirect('/login');
-	}
-});
-
-app.get('/logout', function(req, res) {
-	req.session.destroy(function(err) {
-		if (err) {
-			console.log('error');
-			res.send('an error has occured');
-		}
-		res.redirect('/');
-	});
-});
-
-
-
-************************************************************************/
 
 // LISTEN ON PORT 3000
 app.listen(process.env.PORT || 3000);
