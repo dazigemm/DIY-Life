@@ -32,7 +32,27 @@ const sessionOptions = {
 
 app.use(session(sessionOptions));
 
-// routes 
+// passport-local
+const passport = require('passport'),
+	LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy(
+	function(username, password, done) {
+		User.findOne({username: username }, function(err, user) {
+			if (err) { return done(err); }
+			if (!user) {
+				return done(null, false, { message: 'Incorrect username.'});
+			}
+			if (!user.validPassword(password)) {
+				return done(null, false, { message: 'Incorrect password.' });
+			}
+
+			return done(null, user);
+		});
+	}
+));
+
+// ROUTES 
 
 // List all of the stories. If asked, filter for only complete or incomplete
 app.get('/', function (req, res) {
@@ -54,6 +74,16 @@ app.get('/', function (req, res) {
 		}
 		res.render('index', {stories: stories, stat: stat});
 	});
+});
+
+app.get('/login', function(req, res) {
+	res.render('login');
+});
+
+app.post('/login', function (req, res) { 
+	passport.authenticate('local', { successRedirect: '/',
+					failureRedirect: '/login',
+					failureFlash: true })
 });
 
 app.get('/create', function (req, res) {
