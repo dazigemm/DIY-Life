@@ -1,29 +1,28 @@
-// main.js gameplay code? toggle chapters on/off?
+// main.js 
 function update (nextChapt) {
 	const current = document.querySelector('#current');
 	const dex = document.querySelector('#index').value;
 	current.innerHTML = nextChapt.current.effect;
 	if (dex < 3) {
-		const a = document.querySelector('#a').nextSibling;
-		//console.log(a);
+		const a = document.querySelector('#a').nextSibling;	
 		a.innerHTML = nextChapt.choiceA.action;
 		const b = document.querySelector('#b').nextSibling;
 		b.innerHTML = nextChapt.choiceB.action;
 	}
 	else {
-		//console.log('in the else statement');
 		document.querySelector('form').className = 'invisible';
 		document.querySelector('#end').classList.toggle('invisible');
 	}
 }
 
 function play (evt) {
-	console.log('button was pressed');
+	//console.log('button was pressed');
 	evt.preventDefault();
 	const slug = document.querySelector('h1').innerHTML;
 	const index = document.querySelector('#index');
 	let nextIndex = index.value * 2 + 1;
-	console.log(index);
+	//console.log(index);
+	
 	const req = new XMLHttpRequest();
 	req.open('GET', '/api/'+slug);
 	req.addEventListener('load', function makeChoice () {

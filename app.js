@@ -125,9 +125,10 @@ app.post('/create', function (req, res) {
 			}
 			const s = new Story({
 				title: t,
-				chapts: [chapt]
+				chapts: [chapt],
+				authors: [req.user.username]
 			});
-			console.log("story created: " + s.title);
+			//console.log("story created: " + s.title + " by: " + s.authors);
 			s.save((err) => {
 				if (err) {
 					console.log(err);
@@ -159,6 +160,9 @@ app.get('/:slug', function(req, res) {
 		if (sFound !== null) {
 		       	const len = sFound.chapts.length;
 			if (len < 7) {// incomplete story
+				if (req.user === undefined) {
+					res.render('login', {err: 'Login is required to help complete an incomplete story'});
+				}
 				const num = getLatest(len);
 				const last = len - num;// index of last added chapter
 				const toUpdate = [];
@@ -170,8 +174,9 @@ app.get('/:slug', function(req, res) {
 					}
 					indices.push(i);
 				}
+				const auth = sFound.authors;	
 				//console.log(toUpdate);		
-				res.render('cont', {story: sFound, chapts: toUpdate.reverse(), ind: indices});
+				res.render('cont', {story: sFound, chapts: toUpdate.reverse(), ind: indices, writers: auth});
 			}
 			else {// complete story
 				res.render('play', {story: sFound});
@@ -194,6 +199,10 @@ app.post('/:slug', function (req, res) {
 	Story.findOne({slug: s}, (err, sFound) => {
 		if (err) {
 			console.log(err);
+		}
+		let auth = sFound.authors;
+		if (! auth.includes(req.user.username)) {
+			auth.push(req.user.username);	
 		}
 		const t = req.body.index;
 		sFound.chapts[t].choiceA = cA;

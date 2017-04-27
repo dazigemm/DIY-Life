@@ -1,5 +1,7 @@
 <h1>{{story.title}}</h1>
-<! REWRITE WITH AJAX?>
+by <i>{{writers}} </i>
+<br>
+<br>
 {{#each chapts as |chapt|}}
 	Here is what happened previously: 
 	<br>
@@ -20,4 +22,5 @@
 		<input type="submit">
 	</form>
 {{/each}}
-
+<br>
+Click <a href="/">here</a> if you want to go back. 
