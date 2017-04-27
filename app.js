@@ -20,10 +20,7 @@ const sessionOptions = {
 };
 
 app.use(session(sessionOptions));
-/*/
 
-app.use(session({secret: 'superSecret'}));
-*/
 // link db
 require('./db');
 const mongoose = require('mongoose');
@@ -177,10 +174,9 @@ app.get('/:slug', function(req, res) {
 				res.render('cont', {story: sFound, chapts: toUpdate.reverse(), ind: indices});
 			}
 			else {// complete story
-				//res.json(sFound);
 				res.render('play', {story: sFound});
 			}
-		}//*/
+		}
 	});
 });
 
@@ -195,14 +191,6 @@ app.post('/:slug', function (req, res) {
 		action: req.body.aTwo,
 		effect: req.body.eTwo
 	});
-	const end = new Choice ({
-		action: "The End",
-		effect: "The End"
-	});
-	// SEARCH FOR CHAPTER INSTEAD?
-	// HOW TO KNOW IF END? MAYBE ADD LEVEL PROPERTY TO CHAPT?
-       	//console.log("hereeeeee");
-	//console.log(req.body);
 	Story.findOne({slug: s}, (err, sFound) => {
 		if (err) {
 			console.log(err);
@@ -216,12 +204,6 @@ app.post('/:slug', function (req, res) {
 		const chaptB = new Chapter({
 			current: cB
 		});
-		if (t > 2) {// chapts are on lowest level
-			chaptA.choiceA = end;
-			chaptA.choiceB = end;
-			chaptB.choiceA = end;
-			chaptB.choiceB = end;
-		}
 		sFound.chapts.push(chaptA);
 		sFound.chapts.push(chaptB);
 		sFound.markModified('chapts');
