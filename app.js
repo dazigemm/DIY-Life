@@ -173,6 +173,7 @@ app.get('/:slug', function(req, res) {
 				res.render('cont', {story: sFound, chapts: toUpdate, ind: indices});
 			}
 			else {// complete story
+				//res.json(sFound);
 				res.render('play', {story: sFound});
 			}
 		}//*/
