@@ -233,6 +233,15 @@ app.post('/:slug', function (req, res) {
 	//res.redirect(s);
 });
 
+app.get('/api/:slug', function (req, res) {
+	const t = req.params.slug;
+	//console.log(t);
+	Story.findOne({title: t}, (err, sFound) => {
+		//console.log("found: " + sFound);
+		res.json(sFound);
+	});
+});
+
 // LISTEN ON PORT 3000
 app.listen(process.env.PORT || 3000);
 console.log("started server on port 3000");

@@ -4,7 +4,10 @@
 	{{story.chapts.[0].current.effect}}
 </div>
 <form action="" method="POST">
-	<input type="radio" name="choices" value="a"> {{story.chapts.[0].choiceA.action}}
+	
+	<input type="radio" name="choices" value="a" id="a"><label for='a'>{{story.chapts.[0].choiceA.action}}</label>
 	<br>
-	<input type="radio" name="choices" value="b"> {{story.chapts.[0].choiceB.action}}
+	<input type="radio" name="choices" value="b" id="b"><label for='b'>{{story.chapts.[0].choiceB.action}}</label>
+	<br>
+	<input type="submit" name="btn" id="btn" value="Choose">
 </form>
