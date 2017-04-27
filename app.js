@@ -2,25 +2,14 @@
 const express = require('express');
 const app = express();
 
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: false}));
-
-// Use __dirname to construct absolute paths for:
-// 1. express-static
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 2. hbs views
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-// link db
-require('./db');
-const mongoose = require('mongoose');
-const Choice = mongoose.model('Choice');
-const Chapter = mongoose.model('Chapter');
-const Story = mongoose.model('Story');
-const User = mongoose.model('User');
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: false}));
 
 // express-session
 const session = require('express-session');
@@ -31,26 +20,38 @@ const sessionOptions = {
 };
 
 app.use(session(sessionOptions));
+/*/
 
-// passport-local
-const passport = require('passport'),
-	LocalStrategy = require('passport-local').Strategy;
+app.use(session({secret: 'superSecret'}));
+*/
+// link db
+require('./db');
+const mongoose = require('mongoose');
+const Choice = mongoose.model('Choice');
+const Chapter = mongoose.model('Chapter');
+const Story = mongoose.model('Story');
+const User = mongoose.model('User');
 
+// passport
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(
-	function(username, password, done) {
-		User.findOne({username: username }, function(err, user) {
-			if (err) { return done(err); }
-			if (!user) {
-				return done(null, false, { message: 'Incorrect username.'});
-			}
-			if (!user.validPassword(password)) {
-				return done(null, false, { message: 'Incorrect password.' });
-			}
-
-			return done(null, user);
-		});
-	}
+  function(username, password, done) {
+    User.findOne({ username: username }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
 ));
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // ROUTES 
 
@@ -80,10 +81,8 @@ app.get('/login', function(req, res) {
 	res.render('login');
 });
 
-app.post('/login', function (req, res) { 
-	passport.authenticate('local', { successRedirect: '/',
-					failureRedirect: '/login',
-					failureFlash: true })
+app.post('/login', passport.authenticate('local'), function(req, res) {
+	res.redirect('/');
 });
 
 app.get('/create', function (req, res) {
