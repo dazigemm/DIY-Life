@@ -97,7 +97,10 @@ app.get('/logout', function(req, res) {
 /****************************** ROUTES CONTINUED *******************************/
 
 app.get('/create', function (req, res) {
+	if (req.user === undefined) {
+		res.render('login', {err: 'Login is required to create a new story'});
 	res.render('create');
+	}
 });
 
 // create a new story form
