@@ -159,6 +159,9 @@ app.get('/:slug', function(req, res) {
 		/*** chrome makes favicon requests? ==> null error? ***/
 		if (sFound !== null) {
 		       	const len = sFound.chapts.length;
+			const auth = sFound.authors.reduce(function(acc, val) {
+				return acc + ", " + val;	
+			}, "").slice(1);	
 			if (len < 7) {// incomplete story
 				if (req.user === undefined) {
 					res.render('login', {err: 'Login is required to help complete an incomplete story'});
@@ -174,12 +177,12 @@ app.get('/:slug', function(req, res) {
 					}
 					indices.push(i);
 				}
-				const auth = sFound.authors;	
+				
 				//console.log(toUpdate);		
 				res.render('cont', {story: sFound, chapts: toUpdate.reverse(), ind: indices, writers: auth});
 			}
 			else {// complete story
-				res.render('play', {story: sFound});
+				res.render('play', {story: sFound, writers: auth});
 			}
 		}
 	});
