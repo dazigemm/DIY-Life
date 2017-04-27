@@ -1,6 +1,8 @@
 // db.js
 const mongoose = require('mongoose');
 const URLSlugs = require('mongoose-url-slugs');
+const passportLocalMongoose = require('passport-local-mongoose');
+
 // need to fix
 const User = new mongoose.Schema({
 	name: String,
@@ -25,6 +27,7 @@ const Story = new mongoose.Schema({
 });
 
 Story.plugin(URLSlugs('title'));
+User.plugin(passportLocalMongoose);
 
 mongoose.model('User', User);
 mongoose.model('Choice', Choice);

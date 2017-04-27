@@ -35,20 +35,9 @@ const User = mongoose.model('User');
 // passport
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-));
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -73,15 +62,37 @@ app.get('/', function (req, res) {
 				return ele.chapts.length === 7;
 			});
 		}
-		res.render('index', {stories: stories, stat: stat});
+		res.render('index', {stories: stories, stat: stat, user: req.user});
 	});
 });
 
 app.get('/login', function(req, res) {
-	res.render('login');
+	res.render('login', {user: req.user});
 });
 
 app.post('/login', passport.authenticate('local'), function(req, res) {
+	res.redirect('/');
+});
+
+app.get('/register', function(req, res) {
+	res.render('register');
+});
+
+app.post('/register', function(req, res) {
+	const pw = req.body.password;
+	const name = req.body.username;
+	User.register(new User({username: name}), pw, function(err, user) {
+		if (err) {
+			return res.render('register', {user: user});
+		}
+		passport.authenticate('local')(req, res, function () {
+			res.redirect('/');
+		});
+	});	
+});
+
+app.get('/logout', function(req, res) {
+	req.logout();
 	res.redirect('/');
 });
 
