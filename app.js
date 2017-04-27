@@ -97,12 +97,13 @@ app.get('/logout', function(req, res) {
 	res.redirect('/');
 });
 
-/******************************************************************************/
+/****************************** ROUTES CONTINUED *******************************/
 
 app.get('/create', function (req, res) {
 	res.render('create');
 });
 
+// create a new story form
 app.post('/create', function (req, res) {
 	const t = req.body.title;
 	const p = req.body.point;
@@ -141,7 +142,7 @@ app.post('/create', function (req, res) {
 	}	
 });
 
-// get last few chapters, lowest level of tree
+// get  number of last few chapters, lowest level of tree
 function getLatest (len) {
 	let ctr = 1;
 	let x = 1;
@@ -166,10 +167,13 @@ app.get('/:slug', function(req, res) {
 				const toUpdate = [];
 				const indices = [];
 				for (let i = len -1; i > last - 1; i--) {
-					toUpdate.push({index: i, chap: sFound.chapts[i]});
+					const c = sFound.chapts[i];
+					if (i < 3 && c.choiceA === undefined) {
+						toUpdate.push({index: i, chap: sFound.chapts[i]});
+					}
 					indices.push(i);
 				}
-				console.log(toUpdate);		
+				//console.log(toUpdate);		
 				res.render('cont', {story: sFound, chapts: toUpdate, ind: indices});
 			}
 			else {// complete story
@@ -191,6 +195,10 @@ app.post('/:slug', function (req, res) {
 		action: req.body.aTwo,
 		effect: req.body.eTwo
 	});
+	const end = new Choice ({
+		action: "The End",
+		effect: "The End"
+	});
 	// SEARCH FOR CHAPTER INSTEAD?
 	// HOW TO KNOW IF END? MAYBE ADD LEVEL PROPERTY TO CHAPT?
        	//console.log("hereeeeee");
@@ -199,8 +207,6 @@ app.post('/:slug', function (req, res) {
 		if (err) {
 			console.log(err);
 		}
-		// FIX THIS, SHOULD NOT BE CHAPTER 0, LOOK FOR LATEST CHAPTER
-		//const t = sFound.chapts.length - 1;
 		const t = req.body.index;
 		sFound.chapts[t].choiceA = cA;
 		sFound.chapts[t].choiceB = cB;
@@ -210,6 +216,12 @@ app.post('/:slug', function (req, res) {
 		const chaptB = new Chapter({
 			current: cB
 		});
+		if (t > 2) {// chapts are on lowest level
+			chaptA.choiceA = end;
+			chaptA.choiceB = end;
+			chaptB.choiceA = end;
+			chaptB.choiceB = end;
+		}
 		sFound.chapts.push(chaptA);
 		sFound.chapts.push(chaptB);
 		sFound.markModified('chapts');
