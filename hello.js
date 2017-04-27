@@ -1,9 +1,19 @@
-console.log('Hello World!');
+console.log("Hello World!");
+var urls = ['http://linserv2.cims.nyu.edu:21531/login',
+	'http://linserv2.cims.nyu.edu:21531/register', 
+	'http://linserv2.cims.nyu.edu:21531'];
+
 var page = require('webpage').create();
-page.open('http://linserv2.cims.nyu.edu:21531/', function (status) {
-	var title = page.evaluate(function() {
-		return document.title;
+function handlePage (file) {
+	page.open(file, function(status) {
+		console.log(file + " Retrieval Status: " + status);
+		setTimeout(nextPage, 100);
 	});
-	console.log('Page title is ' + title);
-	phantom.exit();
-});
+}
+
+function nextPage() {
+	var file=urls.shift();
+	if (!file){phantom.exit(0);}
+	handlePage(file);
+}
+nextPage();
