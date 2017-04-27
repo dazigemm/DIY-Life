@@ -42,7 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-// ROUTES 
+/******************************* ROUTES **************************************/ 
 
 // List all of the stories. If asked, filter for only complete or incomplete
 app.get('/', function (req, res) {
@@ -66,6 +66,7 @@ app.get('/', function (req, res) {
 	});
 });
 
+/************************ User Authentication Stuff ***************************/
 app.get('/login', function(req, res) {
 	res.render('login', {user: req.user});
 });
@@ -96,6 +97,8 @@ app.get('/logout', function(req, res) {
 	res.redirect('/');
 });
 
+/******************************************************************************/
+
 app.get('/create', function (req, res) {
 	res.render('create');
 });
@@ -110,10 +113,8 @@ app.post('/create', function (req, res) {
 	const chapt = new Chapter({
 		current: c
 	});	
-	//console.log("t: " + t);
-	//console.log("p: " + p);
 	if (t.length < 1 || p.length < 1) {
-		res.render('create', {error:'please enter something into the text fields'});
+		res.render('create', {error:'Please enter something into the text fields.'});
 	}
 	else {
 		Story.findOne({title: t}, (err, result) => {
@@ -122,7 +123,7 @@ app.post('/create', function (req, res) {
 				res.send('uh oh something went wrong');
 			}
 			if (result) {
-				res.render('create', {error: 'story with this title already exists'});
+				res.render('create', {error: 'A story with this title already exists.'});
 			}
 			const s = new Story({
 				title: t,
@@ -140,8 +141,8 @@ app.post('/create', function (req, res) {
 	}	
 });
 
-// get last few incomplete chapters
-function getTail (len) {
+// get last few chapters, lowest level of tree
+function getLatest (len) {
 	let ctr = 1;
 	let x = 1;
 	while (x < len) {
@@ -165,7 +166,7 @@ app.get('/:slug', function(req, res) {
 		if (sFound !== null) {
 		       	const len = sFound.chapts.length;
 			if (len < 7) {// incomplete story
-				const num = getTail(len);
+				const num = getLatest(len);
 				const last = len - num;// index of last added chapter
 				const toUpdate = [];
 				const indices = [];
