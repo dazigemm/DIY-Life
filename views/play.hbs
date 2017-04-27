@@ -4,10 +4,16 @@
 	{{story.chapts.[0].current.effect}}
 </div>
 <form action="" method="POST">
-	
-	<input type="radio" name="choices" value="a" id="a"><label for='a'>{{story.chapts.[0].choiceA.action}}</label>
+	<input type="text" id="index" value=0 class="invisible">
 	<br>
-	<input type="radio" name="choices" value="b" id="b"><label for='b'>{{story.chapts.[0].choiceB.action}}</label>
+	<input type="radio" name="choices" value="a" id="a"><label for="a">{{story.chapts.[0].choiceA.action}}</label>
+	<br>
+	<input type="radio" name="choices" value="b" id="b"><label for="b">{{story.chapts.[0].choiceB.action}}</label>
 	<br>
 	<input type="submit" name="btn" id="btn" value="Choose">
 </form>
+<div id="end" class="invisible">
+	<h2> The End </h2>
+	<br>
+	To see more stories, click <a href="/">here</a> to go back.
+</div>

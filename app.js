@@ -174,7 +174,7 @@ app.get('/:slug', function(req, res) {
 					indices.push(i);
 				}
 				//console.log(toUpdate);		
-				res.render('cont', {story: sFound, chapts: toUpdate, ind: indices});
+				res.render('cont', {story: sFound, chapts: toUpdate.reverse(), ind: indices});
 			}
 			else {// complete story
 				//res.json(sFound);
@@ -235,6 +235,7 @@ app.post('/:slug', function (req, res) {
 
 app.get('/api/:slug', function (req, res) {
 	const t = req.params.slug;
+	//const ind = 
 	//console.log(t);
 	Story.findOne({title: t}, (err, sFound) => {
 		//console.log("found: " + sFound);

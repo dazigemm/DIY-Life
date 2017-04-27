@@ -5,11 +5,11 @@
 </form>
 <hr>
 <h2> {{stat}} Stories So Far </h2>
-<br>
 {{#each stories as |story|}}
 	<a href={{story.slug}}>{{story.title}}</a>
 	<br>
 {{/each}}
+<br>
 <hr>
 <br>
 {{#if user}}
