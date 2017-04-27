@@ -157,12 +157,7 @@ app.get('/:slug', function(req, res) {
 		if (err) {
 			console.log(err);
 		}
-		/* **** chrome makes favicon requests? ==> null error
-		console.log("for: " + req.params.slug);
-		console.log("Here is the story found:\n" + sFound);
-		console.log("does it have a length? " + sFound.length);
-		//console.log(sFound.chapts.length);
-		//*/
+		/*** chrome makes favicon requests? ==> null error? ***/
 		if (sFound !== null) {
 		       	const len = sFound.chapts.length;
 			if (len < 7) {// incomplete story
@@ -182,9 +177,9 @@ app.get('/:slug', function(req, res) {
 			}
 		}//*/
 	});
-	//res.render('cont');//, {story: sFound});
 });
 
+// adding 'chapters' to incomplete stories
 app.post('/:slug', function (req, res) {
 	const s = req.params.slug;
 	const cA = new Choice ({
@@ -217,7 +212,6 @@ app.post('/:slug', function (req, res) {
 		sFound.chapts.push(chaptA);
 		sFound.chapts.push(chaptB);
 		sFound.markModified('chapts');
-		//sFound.markModified('choiceB');
 		sFound.save(function(err, modifiedStory) {
 			console.log(err, modifiedStory);
 		});

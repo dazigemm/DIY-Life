@@ -1,10 +1,12 @@
 <h1>{{story.title}}</h1>
-<!REPLACE WITH AJAX>
-
+<!REPLACE WITH AJAX?>
+<script src="js/main.js"></script>
 {{#each chapts as |chapt|}}
-	Here is what has happened so far: 
+	Here is what happened previously: 
 	<br>
-	{{chapt.chap.current.action}} then {{chapt.chap.current.effect}}
+	{{#if chapt.chap.current.action}} {{chapt.chap.current.action}} and {{/if}}
+	{{chapt.chap.current.effect}}
+	<br>
 	<br>
 	How do you think it should continue:
 	<form method="POST" action="">
@@ -15,7 +17,6 @@
 		Action 2: <input type="text" name ="aTwo">
 		Effect: <input type="text" name="eTwo">
 		<br>
-		<! MOVE SUBMIT BUTTON OUTSIDE?>
 		<br>
 		<input type="submit">
 	</form>
